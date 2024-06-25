@@ -1,13 +1,8 @@
 float Vin = 3.286;
-float R1 = 5.3;
-float R2 = R1;
-float R3 = R1;
-float R4, Vn ;
-float Ra = 3.3621084298;
-float Rb = 166;
-float Vin2 = 0.06;
+float R1 = 98;
+float R3 = 98;
+float R5 = 98;
 
-int value = 0;
 
 void setup() {
   Serial.begin(9600);  
@@ -15,18 +10,22 @@ void setup() {
 
 
 void loop() {
-float Vb_Vin2 = analogRead(A11)/1023.0; //ratio Vb/Vin2
+float V2 = Vin * analogRead(A10)/1023.0; //ratio (Vb/Vin)*Vin
+float V4 = Vin * analogRead(A11)/1023.0;
+float V6 = Vin * analogRead(A12)/1023.0;
 
-float Va_Vin2 = analogRead(A10)/1023.0; //the ratio Va/Vin2
+float R2 = (V2*R1/Vin) / (1-(V2/Vin));
+float R4 = (V4*R3/Vin) / (1-(V4/Vin));
+float R6 = (V6*R5/Vin) / (1-(V6/Vin));
 
-R4 = (Vb_Vin*R3) / (1-Vb_Vin);
-
-Serial.print(Vb_Vin2*Vin2); //Vb
+Serial.print(R2);
 Serial.print(", ");
-Serial.print(Va_Vin2*Vin2); //Va
+Serial.print(R4);
 Serial.print(", ");
-Serial.println(R4);
+Serial.println(R6);
 
-delay(1000);
+delay(5000);
 
 }
+
+
