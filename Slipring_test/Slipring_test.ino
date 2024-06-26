@@ -1,4 +1,5 @@
 #include<SD.h>
+#include <SPI.h>
 
 float Vin = 3.286;
 float R1 = 98;
@@ -6,10 +7,24 @@ float R3 = 98;
 float R5 = 98;
 
 File dataFile;
+const int chipSelect = BUILTIN_SDCARD;
 
 
 void setup() {
   Serial.begin(9600);  
+  pinMode(13, OUTPUT);
+
+  Serial.print("Initializing SD card...");
+
+  // see if the card is present and can be initialized:
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+    while (1) {
+      // No SD card, so don't do anything more - stay stuck here
+    }
+  }
+  Serial.println("card initialized.");
+
 
   dataFile = SD.open("ResistanceData.csv", FILE_WRITE);
   if(dataFile){
