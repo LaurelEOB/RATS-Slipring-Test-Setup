@@ -35,19 +35,32 @@ void setup() {
 
 
 void loop() {
-  float V2 = Vin * analogRead(A10)/1023.0; //ratio (Vb/Vin)*Vin
-  float V4 = Vin * analogRead(A11)/1023.0;
-  float V6 = Vin * analogRead(A12)/1023.0;
+  float V2 = 0; //ratio (Vb/Vin)*Vin
+  float V4 = 0;
+  float V6 = 0;
+
+  for (int i=0; i<=5000; i++){
+    V2 = V2 + (Vin * analogRead(A10)/1023.0); //ratio (Vb/Vin)*Vin
+    V4 = V4 + (Vin * analogRead(A11)/1023.0);
+    V6 = V6 + (Vin * analogRead(A12)/1023.0);
+  }
+
+  V2 = V2 / 5000;
+  V4 = V4 / 5000;
+  V6 = V6 / 5000;
 
   float R2 = (V2*R1/Vin) / (1-(V2/Vin));
   float R4 = (V4*R3/Vin) / (1-(V4/Vin));
   float R6 = (V6*R5/Vin) / (1-(V6/Vin));
+  
 
   Serial.print(R2);
   Serial.print(", ");
   Serial.print(R4);
   Serial.print(", ");
-  Serial.println(R6);
+  Serial.print(R6);
+  Serial.print(", ");
+  Serial.println(80);
   
 
   dataFile = SD.open("ResistanceData.csv", FILE_WRITE);
@@ -64,7 +77,7 @@ void loop() {
     Serial.println("File error");
   }
 
-  delay(5000);
+  delay(2000);
 
 }
 
