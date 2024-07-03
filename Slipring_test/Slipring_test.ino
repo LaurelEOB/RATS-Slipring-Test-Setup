@@ -65,12 +65,12 @@ void loop() {
 
   dataFile = SD.open("ResistanceData.csv", FILE_WRITE);
   if(dataFile){
-    dataFile.print(millis()*1000);
-    dataFile.print(", ");
+    dataFile.print(millis()/1000);
+    dataFile.print(",");
     dataFile.print(R2);
-    dataFile.print(", ");
+    dataFile.print(",");
     dataFile.print(R4);
-    dataFile.print(", ");
+    dataFile.print(",");
     dataFile.println(R6);
     dataFile.close();
   } else {
